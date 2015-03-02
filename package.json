@@ -1,0 +1,25 @@
+{
+  "name": "tape-chai",
+  "version": "0.0.1",
+  "description": "Chai.js Assertions for Tape",
+  "main": "main.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --ui bdd tests/*.js"
+  },
+  "keywords": [
+    "test",
+    "assertion",
+    "assert",
+    "testing",
+    "chai",
+    "tape"
+  ],
+  "author": "\"Ron Waldon\" (http://jokeyrhy.me/)",
+  "license": "BSD",
+  "devDependencies": {
+    "tape": "^3.5.0"
+  },
+  "peerDependencies": {
+    "tape": "^3.5.0"
+  }
+}
