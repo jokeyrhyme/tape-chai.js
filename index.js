@@ -365,21 +365,47 @@ Test.prototype.closeTo = function (actual, expected, delta, msg) {
 };
 
 Test.prototype.sameMembers = function (set1, set2, msg) {
-  var length;
-  this.isArray(set1, msg);
-  this.isArray(set2, msg);
-  length = set1.length;
-  this.equal(length, set2.length, msg);
-  this.includeMembers(set1, set2, msg);
+  var length, allIncluded;
+  var isValid = [set1, set2].every(function (value) {
+    return typeOf(value) === 'array';
+  });
+  if (isValid) {
+    if (set1.length !== set2.length) {
+      this.lengthOf(set1, set2.length, msg);
+      return;
+    }
+    length = set2.length;
+    allIncluded = true;
+    while (length > 0) {
+      length -= 1;
+      if (set1.indexOf(set2[length]) === -1) {
+        allIncluded = false;
+        break;
+      }
+    }
+    this.isTrue(allIncluded, msg);
+    return;
+  }
+  this.ok(isValid, msg);
 };
 
 Test.prototype.includeMembers = function (superset, subset, msg) {
-  var length;
-  this.isArray(superset, msg);
-  this.isArray(subset, msg);
-  length = subset.length;
-  while (length > 0) {
-    length -= 1;
-    this.include(superset, subset[length], msg);
+  var length, allIncluded;
+  var isValid = [superset, subset].every(function (value) {
+    return typeOf(value) === 'array';
+  });
+  if (isValid) {
+    length = subset.length;
+    allIncluded = true;
+    while (length > 0) {
+      length -= 1;
+      if (superset.indexOf(subset[length]) === -1) {
+        allIncluded = false;
+        break;
+      }
+    }
+    this.isTrue(allIncluded, msg);
+    return;
   }
+  this.ok(isValid, msg);
 };

@@ -695,8 +695,9 @@ test('closeTo', function(t) {
     ht.closeTo(-10, 20, 29);
   }, "expected -10 to be close to 20 +/- 29");
 });
-/*
+
 test('members', function(t) {
+  t.plan(5);
   t.includeMembers([1, 2, 3], [2, 3]);
   t.includeMembers([1, 2, 3], []);
   t.includeMembers([1, 2, 3], [3]);
@@ -708,11 +709,10 @@ test('members', function(t) {
   err(t, function (ht) {
     ht.includeMembers([5, 6], [5, 6, 0]);
   }, 'expected [ 5, 6 ] to be a superset of [ 5, 6, 0 ]');
-
-  t.end();
 });
 
 test('memberEquals', function(t) {
+  t.plan(5);
   t.sameMembers([], []);
   t.sameMembers([1, 2, 3], [3, 2, 1]);
   t.sameMembers([4, 2], [4, 2]);
@@ -724,7 +724,4 @@ test('memberEquals', function(t) {
   err(t, function (ht) {
     ht.sameMembers([1, 54], [6, 1, 54]);
   }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
-
-  t.end();
 });
-*/
