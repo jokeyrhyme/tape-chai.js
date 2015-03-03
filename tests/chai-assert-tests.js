@@ -228,9 +228,10 @@ test('notStrictEqual', function(t) {
   }, "expected 5 to not equal 5");
 });
 
-/*
 test('deepEqual', function(t) {
-  t.plan(3);
+  var obja, objb;
+  // var obj1, obj2;
+  t.plan(Object.create ? 3 : 2);
   t.deepEqual({tea: 'chai'}, {tea: 'chai'});
 
   err(t, function (ht) {
@@ -238,20 +239,21 @@ test('deepEqual', function(t) {
   }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
 
   if (Object.create) {
-    var obja = Object.create({ tea: 'chai' })
-      , objb = Object.create({ tea: 'chai' });
+    obja = Object.create({ tea: 'chai' });
+    objb = Object.create({ tea: 'chai' });
 
-    t.deepEqual(obja, objb);
+    t.deepEqual(obja, objb, 'Object.create() with the same props should deeply equal');
 
-    var obj1 = Object.create({tea: 'chai'})
-      , obj2 = Object.create({tea: 'black'});
+    // https://github.com/iojs/io.js/issues/620
+    // https://github.com/joyent/node/issues/4523
+    /* tape and Node don't deepEqual property with Object.create like this
+    obj1 = Object.create({tea: 'chai'});
+    obj2 = Object.create({tea: 'black'});
 
     err(t, function (ht) {
       ht.deepEqual(obj1, obj2);
     }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
-
-  } else {
-    t.pass('no Object.create');
+    */
   }
 });
 
@@ -262,6 +264,7 @@ test('deepEqual (ordering)', function(t) {
   t.end();
 });
 
+/* tape and Node don't deepEqual RegExp and Date like Chai does
 test('deepEqual /regexp/', function(t) {
   t.deepEqual(/a/, /a/);
   t.notDeepEqual(/a/, /b/);
@@ -283,7 +286,9 @@ test('deepEqual (Date)', function(t) {
   t.notDeepEqual(a, {});
   t.end();
 });
+*/
 
+/* tape and Node don't deal with circular structures
 test('deepEqual (circular)', function(t) {
   var circularObject = {}
     , secondCircularObject = {};
@@ -296,9 +301,10 @@ test('deepEqual (circular)', function(t) {
 
   err(t, function (ht) {
     secondCircularObject.field2 = secondCircularObject;
-    t.deepEqual(circularObject, secondCircularObject);
+    ht.deepEqual(circularObject, secondCircularObject);
   }, "expected { field: [Circular] } to deeply equal { Object (field, field2) }");
 });
+*/
 
 test('notDeepEqual', function(t) {
   t.plan(2);
@@ -309,6 +315,7 @@ test('notDeepEqual', function(t) {
   }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
 });
 
+/* tape and Node don't deal with circular structures
 test('notDeepEqual (circular)', function(t) {
   var circularObject = {}
     , secondCircularObject = { tea: 'jasmine' };
