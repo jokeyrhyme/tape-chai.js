@@ -59,15 +59,15 @@ test('isTrue', function (t) {
 
   err(t, function (ht) {
     ht.isTrue(false);
-  }, "expected false to be true");
+  }, 'expected false to be true');
 
   err(t, function (ht) {
     ht.isTrue(1);
-  }, "expected 1 to be true");
+  }, 'expected 1 to be true');
 
   err(t, function (ht) {
     ht.isTrue('test');
-  }, "expected 'test' to be true");
+  }, 'expected \'test\' to be true');
 });
 
 test('ok', function (t) {
@@ -78,15 +78,15 @@ test('ok', function (t) {
 
   err(t, function (ht) {
     ht.ok(false);
-  }, "expected false to be truthy");
+  }, 'expected false to be truthy');
 
   err(t, function (ht) {
     ht.ok(0);
-  }, "expected 0 to be truthy");
+  }, 'expected 0 to be truthy');
 
   err(t, function (ht) {
     ht.ok('');
-  }, "expected '' to be truthy");
+  }, 'expected \'\' to be truthy');
 });
 
 test('notOk', function (t) {
@@ -97,15 +97,15 @@ test('notOk', function (t) {
 
   err(t, function (ht) {
     ht.notOk(true);
-  }, "expected true to be falsy");
+  }, 'expected true to be falsy');
 
   err(t, function (ht) {
     ht.notOk(1);
-  }, "expected 1 to be falsy");
+  }, 'expected 1 to be falsy');
 
   err(t, function (ht) {
     ht.notOk('test');
-  }, "expected 'test' to be falsy");
+  }, 'expected \'test\' to be falsy');
 });
 
 test('isFalse', function (t) {
@@ -114,11 +114,11 @@ test('isFalse', function (t) {
 
   err(t, function (ht) {
     ht.isFalse(true);
-  }, "expected true to be false");
+  }, 'expected true to be false');
 
   err(t, function (ht) {
     ht.isFalse(0);
-  }, "expected 0 to be false");
+  }, 'expected 0 to be false');
 });
 
 test('equal', function (t) {
@@ -135,7 +135,7 @@ test('typeof / notTypeOf', function (t) {
 
   err(t, function (ht) {
     ht.typeOf(5, 'string');
-  }, "expected 5 to be a string");
+  }, 'expected 5 to be a string');
 });
 
 test('notTypeOf', function (t) {
@@ -144,7 +144,7 @@ test('notTypeOf', function (t) {
 
   err(t, function (ht) {
     ht.notTypeOf(5, 'number');
-  }, "expected 5 not to be a number");
+  }, 'expected 5 not to be a number');
 });
 
 test('instanceOf', function(t) {
@@ -154,11 +154,11 @@ test('instanceOf', function(t) {
 
   err(t, function (ht) {
     ht.instanceOf(5, Foo);
-  }, "expected 5 to be an instance of Foo");
+  }, 'expected 5 to be an instance of Foo');
 
   function CrashyObject() {}
   CrashyObject.prototype.inspect = function () {
-    throw new Error("Arg's inspect() called even though the test passed");
+    throw new Error('Arg\'s inspect() called even though the test passed');
   };
   t.instanceOf(new CrashyObject(), CrashyObject);
 });
@@ -170,7 +170,7 @@ test('notInstanceOf', function (t) {
 
   err(t, function (ht) {
     ht.notInstanceOf(new Foo(), Foo);
-  }, "expected {} to not be an instance of Foo");
+  }, 'expected {} to not be an instance of Foo');
 });
 
 test('isObject', function (t) {
@@ -181,15 +181,15 @@ test('isObject', function (t) {
 
   err(t, function (ht) {
     ht.isObject(true);
-  }, "expected true to be an object");
+  }, 'expected true to be an object');
 
   err(t, function (ht) {
     ht.isObject(Foo);
-  }, "expected [Function: Foo] to be an object");
+  }, 'expected [Function: Foo] to be an object');
 
   err(t, function (ht) {
     ht.isObject('foo');
-  }, "expected 'foo' to be an object");
+  }, 'expected \'foo\' to be an object');
 });
 
 test('isNotObject', function (t) {
@@ -198,7 +198,7 @@ test('isNotObject', function (t) {
 
   err(t, function (ht) {
     ht.isNotObject({});
-  }, "expected {} not to be an object");
+  }, 'expected {} not to be an object');
 });
 
 test('notEqual', function(t) {
@@ -207,7 +207,7 @@ test('notEqual', function(t) {
 
   err(t, function (ht) {
     ht.notEqual(5, 5);
-  }, "expected 5 to not equal 5");
+  }, 'expected 5 to not equal 5');
 });
 
 test('strictEqual', function(t) {
@@ -216,7 +216,7 @@ test('strictEqual', function(t) {
 
   err(t, function (ht) {
     ht.strictEqual('5', 5);
-  }, "expected \'5\' to equal 5");
+  }, 'expected \'5\' to equal 5');
 });
 
 test('notStrictEqual', function(t) {
@@ -225,7 +225,7 @@ test('notStrictEqual', function(t) {
 
   err(t, function (ht) {
     ht.notStrictEqual(5, 5);
-  }, "expected 5 to not equal 5");
+  }, 'expected 5 to not equal 5');
 });
 
 test('deepEqual', function(t) {
@@ -236,7 +236,7 @@ test('deepEqual', function(t) {
 
   err(t, function (ht) {
     ht.deepEqual({tea: 'chai'}, {tea: 'black'});
-  }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+  }, 'expected { tea: \'chai\' } to deeply equal { tea: \'black\' }');
 
   if (Object.create) {
     obja = Object.create({ tea: 'chai' });
@@ -252,7 +252,7 @@ test('deepEqual', function(t) {
 
     err(t, function (ht) {
       ht.deepEqual(obj1, obj2);
-    }, "expected { tea: \'chai\' } to deeply equal { tea: \'black\' }");
+    }, 'expected { tea: \'chai\' } to deeply equal { tea: \'black\' }');
     */
   }
 });
@@ -302,7 +302,7 @@ test('deepEqual (circular)', function(t) {
   err(t, function (ht) {
     secondCircularObject.field2 = secondCircularObject;
     ht.deepEqual(circularObject, secondCircularObject);
-  }, "expected { field: [Circular] } to deeply equal { Object (field, field2) }");
+  }, 'expected { field: [Circular] } to deeply equal { Object (field, field2) }');
 });
 */
 
@@ -312,7 +312,7 @@ test('notDeepEqual', function(t) {
 
   err(t, function (ht) {
     ht.notDeepEqual({tea: 'chai'}, {tea: 'chai'});
-  }, "expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }");
+  }, 'expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }');
 });
 
 /* tape and Node don't deal with circular structures
@@ -329,7 +329,7 @@ test('notDeepEqual (circular)', function(t) {
   err(t, function (ht) {
     delete secondCircularObject.tea;
     t.notDeepEqual(circularObject, secondCircularObject);
-  }, "expected { field: [Circular] } to not deeply equal { field: [Circular] }");
+  }, 'expected { field: [Circular] } to not deeply equal { field: [Circular] }');
 });
 */
 
@@ -339,7 +339,7 @@ test('isNull', function(t) {
 
   err(t, function (ht) {
     ht.isNull(undefined);
-  }, "expected undefined to equal null");
+  }, 'expected undefined to equal null');
 });
 
 test('isNotNull', function(t) {
@@ -348,7 +348,7 @@ test('isNotNull', function(t) {
 
   err(t, function (ht) {
     ht.isNotNull(null);
-  }, "expected null to not equal null");
+  }, 'expected null to not equal null');
 });
 
 test('isUndefined', function(t) {
@@ -357,7 +357,7 @@ test('isUndefined', function(t) {
 
   err(t, function (ht) {
     ht.isUndefined(null);
-  }, "expected null to equal undefined");
+  }, 'expected null to equal undefined');
 });
 
 test('isDefined', function(t) {
@@ -366,17 +366,17 @@ test('isDefined', function(t) {
 
   err(t, function (ht) {
     ht.isDefined(undefined);
-  }, "expected undefined to not equal undefined");
+  }, 'expected undefined to not equal undefined');
 });
 
 test('isFunction', function(t) {
-  t.plan(2);
   var func = function () {};
+  t.plan(2);
   t.isFunction(func);
 
   err(t, function (ht) {
     ht.isFunction({});
-  }, "expected {} to be a function");
+  }, 'expected {} to be a function');
 });
 
 test('isNotFunction', function (t) {
@@ -385,7 +385,7 @@ test('isNotFunction', function (t) {
 
   err(t, function (ht) {
     ht.isNotFunction(function () {});
-  }, "expected [Function] not to be a function");
+  }, 'expected [Function] not to be a function');
 });
 
 test('isArray', function(t) {
@@ -395,7 +395,7 @@ test('isArray', function(t) {
 
   err(t, function (ht) {
     ht.isArray({});
-  }, "expected {} to be an array");
+  }, 'expected {} to be an array');
 });
 
 test('isNotArray', function (t) {
@@ -404,11 +404,11 @@ test('isNotArray', function (t) {
 
   err(t, function (ht) {
     ht.isNotArray([]);
-  }, "expected [] not to be an array");
+  }, 'expected [] not to be an array');
 
   err(t, function (ht) {
     ht.isNotArray(new Array());
-  }, "expected [] not to be an array");
+  }, 'expected [] not to be an array');
 });
 
 test('isString', function(t) {
@@ -418,7 +418,7 @@ test('isString', function(t) {
 
   err(t, function (ht) {
     ht.isString(1);
-  }, "expected 1 to be a string");
+  }, 'expected 1 to be a string');
 });
 
 test('isNotString', function (t) {
@@ -428,7 +428,7 @@ test('isNotString', function (t) {
 
   err(t, function (ht) {
     ht.isNotString('hello');
-  }, "expected 'hello' not to be a string");
+  }, 'expected \'hello\' not to be a string');
 });
 
 test('isNumber', function (t) {
@@ -438,7 +438,7 @@ test('isNumber', function (t) {
 
   err(t, function (ht) {
     ht.isNumber('1');
-  }, "expected \'1\' to be a number");
+  }, 'expected \'1\' to be a number');
 });
 
 test('isNotNumber', function (t) {
@@ -448,7 +448,7 @@ test('isNotNumber', function (t) {
 
   err(t, function (ht) {
     ht.isNotNumber(4);
-  }, "expected 4 not to be a number");
+  }, 'expected 4 not to be a number');
 });
 
 test('isBoolean', function (t) {
@@ -458,7 +458,7 @@ test('isBoolean', function (t) {
 
   err(t, function (ht) {
     ht.isBoolean('1');
-  }, "expected \'1\' to be a boolean");
+  }, 'expected \'1\' to be a boolean');
 });
 
 test('isNotBoolean', function (t) {
@@ -467,11 +467,11 @@ test('isNotBoolean', function (t) {
 
   err(t, function (ht) {
     ht.isNotBoolean(true);
-  }, "expected true not to be a boolean");
+  }, 'expected true not to be a boolean');
 
   err(t, function (ht) {
     ht.isNotBoolean(false);
-  }, "expected false not to be a boolean");
+  }, 'expected false not to be a boolean');
 });
 
 test('include', function (t) {
@@ -482,11 +482,11 @@ test('include', function (t) {
 
   err(t, function (ht) {
     ht.include('foobar', 'baz');
-  }, "expected \'foobar\' to include \'baz\'");
+  }, 'expected \'foobar\' to include \'baz\'');
 
   err(t, function (ht) {
     ht.include(undefined, 'bar');
-  }, "expected undefined to include 'bar'");
+  }, 'expected undefined to include \'bar\'');
 });
 
 test('notInclude', function (t) {
@@ -497,7 +497,7 @@ test('notInclude', function (t) {
 
   err(t, function (ht) {
     ht.notInclude('foobar', 'bar');
-  }, "expected \'foobar\' to not include \'bar\'");
+  }, 'expected \'foobar\' to not include \'bar\'');
 });
 
 test('lengthOf', function (t) {
@@ -507,11 +507,11 @@ test('lengthOf', function (t) {
 
   err(t, function (ht) {
     ht.lengthOf('foobar', 5);
-   }, "expected 'foobar' to have a length of 5 but got 6");
+   }, 'expected \'foobar\' to have a length of 5 but got 6');
 
   err(t, function (ht) {
     ht.lengthOf(1, 5);
-  }, "expected 1 to have a property \'length\'");
+  }, 'expected 1 to have a property \'length\'');
 });
 
 test('match', function (t) {
@@ -521,11 +521,11 @@ test('match', function (t) {
 
   err(t, function (ht) {
     ht.match('foobar', /^bar/i);
-  }, "expected 'foobar' to match /^bar/i");
+  }, 'expected \'foobar\' to match /^bar/i');
 
   err(t, function (ht) {
     ht.notMatch('foobar', /^foo/i);
-  }, "expected 'foobar' not to match /^foo/i");
+  }, 'expected \'foobar\' not to match /^foo/i');
 });
 
 test('property', function (t) {
@@ -542,35 +542,35 @@ test('property', function (t) {
 
   err(t, function (ht) {
     ht.property(obj, 'baz');
-  }, "expected { foo: { bar: 'baz' } } to have a property 'baz'");
+  }, 'expected { foo: { bar: \'baz\' } } to have a property \'baz\'');
 
   err(t, function (ht) {
     ht.deepProperty(obj, 'foo.baz');
-  }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.baz'");
+  }, 'expected { foo: { bar: \'baz\' } } to have a deep property \'foo.baz\'');
 
   err(t, function (ht) {
     ht.notProperty(obj, 'foo');
-  }, "expected { foo: { bar: 'baz' } } to not have property 'foo'");
+  }, 'expected { foo: { bar: \'baz\' } } to not have property \'foo\'');
 
   err(t, function (ht) {
     ht.notDeepProperty(obj, 'foo.bar');
-  }, "expected { foo: { bar: 'baz' } } to not have deep property 'foo.bar'");
+  }, 'expected { foo: { bar: \'baz\' } } to not have deep property \'foo.bar\'');
 
   err(t, function (ht) {
     ht.propertyVal(simpleObj, 'foo', 'ball');
-  }, "expected { foo: 'bar' } to have a property 'foo' of 'ball', but got 'bar'");
+  }, 'expected { foo: \'bar\' } to have a property \'foo\' of \'ball\', but got \'bar\'');
 
   err(t, function (ht) {
     ht.deepPropertyVal(obj, 'foo.bar', 'ball');
-  }, "expected { foo: { bar: 'baz' } } to have a deep property 'foo.bar' of 'ball', but got 'baz'");
+  }, 'expected { foo: { bar: \'baz\' } } to have a deep property \'foo.bar\' of \'ball\', but got \'baz\'');
 
   err(t, function (ht) {
     ht.propertyNotVal(simpleObj, 'foo', 'bar');
-  }, "expected { foo: 'bar' } to not have a property 'foo' of 'bar'");
+  }, 'expected { foo: \'bar\' } to not have a property \'foo\' of \'bar\'');
 
   err(t, function (ht) {
     ht.deepPropertyNotVal(obj, 'foo.bar', 'baz');
-  }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
+  }, 'expected { foo: { bar: \'baz\' } } to not have a deep property \'foo.bar\' of \'baz\'');
 });
 
 test('throws', function(t) {
@@ -582,8 +582,8 @@ test('throws', function(t) {
   t.throws(function () { throw new Error('bar'); }, Error, 'bar');
 
   err(t, function (ht) {
-    ht.throws(function () { throw new Error('foo') }, TypeError);
-  }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown");
+    ht.throws(function () { throw new Error('foo'); }, TypeError);
+  }, 'expected [Function] to throw \'TypeError\' but \'Error: foo\' was thrown');
 
   // tape: throws(Function, Function|RegExp, String)
   // chai: throws(Function, Function|RegExp|String, RegExp|String, String)
@@ -591,29 +591,29 @@ test('throws', function(t) {
   /* // sticking with tape's version for now
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, 'bar');
-  }, "expected [Function] to throw error including 'bar' but got 'foo'");
+  }, 'expected [Function] to throw error including 'bar' but got 'foo'');
 
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, Error, 'bar');
-  }, "expected [Function] to throw error including 'bar' but got 'foo'");
+  }, 'expected [Function] to throw error including 'bar' but got 'foo'');
   */
 
   err(t, function (ht) {
-    ht.throws(function () { throw new Error('foo') }, TypeError, 'bar');
-  }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown");
+    ht.throws(function () { throw new Error('foo'); }, TypeError, 'bar');
+  }, 'expected [Function] to throw \'TypeError\' but \'Error: foo\' was thrown');
 
   err(t, function (ht) {
     ht.throws(function () {});
-  }, "expected [Function] to throw an error");
+  }, 'expected [Function] to throw an error');
 
   /* // sticking with tape's version for now
   err(t, function (ht) {
     ht.throws(function () { throw new Error('') }, 'bar');
-  }, "expected [Function] to throw error including 'bar' but got ''");
+  }, 'expected [Function] to throw error including 'bar' but got ''');
 
   err(t, function (ht) {
     ht.throws(function () { throw new Error('') }, /bar/);
-  }, "expected [Function] to throw error matching /bar/ but got ''");
+  }, 'expected [Function] to throw error matching /bar/ but got ''');
   */
 });
 
@@ -630,11 +630,11 @@ test('doesNotThrow', function(t) {
 
   err(t, function (ht) {
     ht.doesNotThrow(function () { throw new Error('foo'); });
-   }, "expected [Function] to not throw an error but 'Error: foo' was thrown");
+  }, 'expected [Function] to not throw an error but \'Error: foo\' was thrown');
 
   err(t, function (ht) {
       ht.doesNotThrow(function () { throw new CustomError('foo'); });
-  }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
+  }, 'expected [Function] to not throw an error but \'CustomError: foo\' was thrown');
 });
 
 test('ifError', function(t) {
@@ -645,7 +645,7 @@ test('ifError', function(t) {
 
   err(t, function (ht) {
     ht.ifError('foo');
-  }, "expected \'foo\' to be falsy");
+  }, 'expected \'foo\' to be falsy');
 });
 
 test('operator', function(t) {
@@ -661,31 +661,31 @@ test('operator', function(t) {
 
   err(t, function (ht) {
     ht.operator(1, '=', 2);
-   }, 'Invalid operator "="');
+  }, 'Invalid operator \'=\'');
 
   err(t, function (ht) {
     ht.operator(2, '<', 1);
-   }, "expected 2 to be < 1");
+   }, 'expected 2 to be < 1');
 
   err(t, function (ht) {
     ht.operator(1, '>', 2);
-   }, "expected 1 to be > 2");
+   }, 'expected 1 to be > 2');
 
   err(t, function (ht) {
     ht.operator(1, '==', 2);
-   }, "expected 1 to be == 2");
+   }, 'expected 1 to be == 2');
 
   err(t, function (ht) {
     ht.operator(2, '<=', 1);
-   }, "expected 2 to be <= 1");
+   }, 'expected 2 to be <= 1');
 
   err(t, function (ht) {
     ht.operator(1, '>=', 2);
-   }, "expected 1 to be >= 2");
+   }, 'expected 1 to be >= 2');
 
   err(t, function (ht) {
     ht.operator(1, '!=', 1);
-   }, "expected 1 to be != 1");
+   }, 'expected 1 to be != 1');
 });
 
 test('closeTo', function(t) {
@@ -696,11 +696,11 @@ test('closeTo', function(t) {
 
   err(t, function (ht) {
     ht.closeTo(2, 1.0, 0.5);
-  }, "expected 2 to be close to 1 +/- 0.5");
+  }, 'expected 2 to be close to 1 +/- 0.5');
 
   err(t, function (ht) {
     ht.closeTo(-10, 20, 29);
-  }, "expected -10 to be close to 20 +/- 29");
+  }, 'expected -10 to be close to 20 +/- 29');
 });
 
 test('members', function(t) {

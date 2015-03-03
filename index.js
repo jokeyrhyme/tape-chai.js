@@ -54,7 +54,7 @@ function parsePath (path) {
     , parts = str.match(/(\\\.|[^.]+?)+/g);
   return parts.map(function (value) {
     var re = /\[(\d+)\]$/
-      , mArr = re.exec(value)
+      , mArr = re.exec(value);
     if (mArr) return { i: parseFloat(mArr[1], 10) };
     else return { p: value };
   });
