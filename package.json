@@ -4,7 +4,7 @@
   "description": "Chai.js Assertions for Tape",
   "main": "main.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --ui bdd tests/*.js"
+    "test": "node tests"
   },
   "keywords": [
     "test",
