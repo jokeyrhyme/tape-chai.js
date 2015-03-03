@@ -39,7 +39,7 @@ function err(t, fn, msg) {
     stream = null;
     t.ok(rows.every(function (row) {
       return !row.ok;
-    }));
+    }), 'expected failure: ' + msg);
   };
   if (!t instanceof test.Test) {
     throw new TypeError('err expects 1st parameter to be a test');
@@ -565,8 +565,9 @@ test('property', function (t) {
     ht.deepPropertyNotVal(obj, 'foo.bar', 'baz');
   }, "expected { foo: { bar: 'baz' } } to not have a deep property 'foo.bar' of 'baz'");
 });
-/*
+
 test('throws', function(t) {
+  t.plan(8);
   t.throws(function () { throw new Error('foo'); });
   t.throws(function () { throw new Error('bar'); }, 'bar');
   t.throws(function () { throw new Error('bar'); }, /bar/);
@@ -575,36 +576,42 @@ test('throws', function(t) {
 
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, TypeError);
-   }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+  }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown");
 
+  // tape: throws(Function, Function|RegExp, String)
+  // chai: throws(Function, Function|RegExp|String, RegExp|String, String)
+
+  /* // sticking with tape's version for now
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, 'bar');
-   }, "expected [Function] to throw error including 'bar' but got 'foo'")
+  }, "expected [Function] to throw error including 'bar' but got 'foo'");
 
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, Error, 'bar');
-   }, "expected [Function] to throw error including 'bar' but got 'foo'")
+  }, "expected [Function] to throw error including 'bar' but got 'foo'");
+  */
 
   err(t, function (ht) {
     ht.throws(function () { throw new Error('foo') }, TypeError, 'bar');
-   }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown")
+  }, "expected [Function] to throw 'TypeError' but 'Error: foo' was thrown");
 
   err(t, function (ht) {
     ht.throws(function () {});
-   }, "expected [Function] to throw an error");
+  }, "expected [Function] to throw an error");
 
+  /* // sticking with tape's version for now
   err(t, function (ht) {
-      ht.throws(function () { throw new Error('') }, 'bar');
+    ht.throws(function () { throw new Error('') }, 'bar');
   }, "expected [Function] to throw error including 'bar' but got ''");
 
   err(t, function (ht) {
-      ht.throws(function () { throw new Error('') }, /bar/);
+    ht.throws(function () { throw new Error('') }, /bar/);
   }, "expected [Function] to throw error matching /bar/ but got ''");
-
-  t.end();
+  */
 });
 
 test('doesNotThrow', function(t) {
+  t.plan(4);
   function CustomError(message) {
       this.name = 'CustomError';
       this.message = message;
@@ -621,11 +628,10 @@ test('doesNotThrow', function(t) {
   err(t, function (ht) {
       ht.doesNotThrow(function () { throw new CustomError('foo'); });
   }, "expected [Function] to not throw an error but 'CustomError: foo' was thrown");
-
-  t.end();
 });
 
 test('ifError', function(t) {
+  t.plan(4);
   t.ifError(false);
   t.ifError(null);
   t.ifError(undefined);
@@ -633,11 +639,10 @@ test('ifError', function(t) {
   err(t, function (ht) {
     ht.ifError('foo');
   }, "expected \'foo\' to be falsy");
-
-  t.end();
 });
 
 test('operator', function(t) {
+  t.plan(15);
   t.operator(1, '<', 2);
   t.operator(2, '>', 1);
   t.operator(1, '==', 1);
@@ -645,6 +650,7 @@ test('operator', function(t) {
   t.operator(1, '>=', 1);
   t.operator(1, '!=', 2);
   t.operator(1, '!==', 2);
+  t.operator(1, '!==', '1');
 
   err(t, function (ht) {
     ht.operator(1, '=', 2);
@@ -673,30 +679,23 @@ test('operator', function(t) {
   err(t, function (ht) {
     ht.operator(1, '!=', 1);
    }, "expected 1 to be != 1");
-
-  err(t, function (ht) {
-    ht.operator(1, '!==', '1');
-  }, "expected 1 to be !== \'1\'");
-
-  t.end();
 });
 
-test('closeTo', function(t){
+test('closeTo', function(t) {
+  t.plan(5);
   t.closeTo(1.5, 1.0, 0.5);
   t.closeTo(10, 20, 20);
   t.closeTo(-10, 20, 30);
 
-  err(function (){
-    t.closeTo(2, 1.0, 0.5);
+  err(t, function (ht) {
+    ht.closeTo(2, 1.0, 0.5);
   }, "expected 2 to be close to 1 +/- 0.5");
 
-  err(function (){
-    t.closeTo(-10, 20, 29);
+  err(t, function (ht) {
+    ht.closeTo(-10, 20, 29);
   }, "expected -10 to be close to 20 +/- 29");
-
-  t.end();
 });
-
+/*
 test('members', function(t) {
   t.includeMembers([1, 2, 3], [2, 3]);
   t.includeMembers([1, 2, 3], []);

@@ -340,13 +340,13 @@ Test.prototype.operator = function (val1, operator, val2, msg) {
         break;
       /*eslint-enable eqeqeq*/
       case '===':
-        this.isTrue(val1 === val2, msg);
+        this.equal(val1, val2, msg);
         break;
       case '!==':
-        this.isTrue(val1 !== val2, msg);
+        this.notEqual(val1, val2, msg);
         break;
       default:
-        throw new Error('unsupported operator');
+        this.fail('unsupported operator');
     }
     return;
   }
@@ -354,10 +354,14 @@ Test.prototype.operator = function (val1, operator, val2, msg) {
 };
 
 Test.prototype.closeTo = function (actual, expected, delta, msg) {
-  this.isNumber(actual);
-  this.isNumber(expected);
-  this.isNumber(delta);
-  this.isTrue(Math.abs(actual - expected) <= delta, msg);
+  var isValid = [actual, expected, delta].every(function (value) {
+    return typeOf(value) === 'number';
+  });
+  if (isValid) {
+    this.isTrue(Math.abs(actual - expected) <= delta, msg);
+    return;
+  }
+  this.ok(isValid, msg);
 };
 
 Test.prototype.sameMembers = function (set1, set2, msg) {
