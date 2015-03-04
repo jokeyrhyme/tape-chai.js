@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "$(npm bin)/browserify -e tests/index.js -o tests/browser.bundle.js",
-    "test": "$(npm bin)/eslint . && node tests"
+    "test": "$(npm bin)/eslint . && $(npm bin)/istanbul cover tests"
   },
   "repository": "https://github.com/jokeyrhyme/tape-chai.js.git",
   "keywords": [
@@ -21,6 +21,7 @@
   "devDependencies": {
     "browserify": "^9.0.3",
     "eslint": "^0.15.1",
+    "istanbul": "^0.3.6",
     "tape": "^3.5.0"
   },
   "peerDependencies": {
