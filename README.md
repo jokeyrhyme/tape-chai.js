@@ -66,3 +66,5 @@ Use [Browserify](http://browserify.org/)
 ```sh
 npm run-script compile
 ```
+
+Then load tests/index.html in your browser.
