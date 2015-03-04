@@ -1,2 +1,5 @@
 # 3rd-party files
 node_modules
+
+# output files
+tests/browser.bundle.js

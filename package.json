@@ -4,8 +4,10 @@
   "description": "Chai.js Assertions for Tape",
   "main": "index.js",
   "scripts": {
+    "compile": "$(npm bin)/browserify -e tests/index.js -o tests/browser.bundle.js",
     "test": "$(npm bin)/eslint . && node tests"
   },
+  "repository": "https://github.com/jokeyrhyme/tape-chai.js.git",
   "keywords": [
     "test",
     "assertion",
@@ -23,5 +25,9 @@
   },
   "peerDependencies": {
     "tape": "^3.5.0"
-  }
+  },
+  "browserify": {},
+  "files": [
+    "index.js"
+  ]
 }
