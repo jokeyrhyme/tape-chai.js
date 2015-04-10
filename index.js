@@ -134,16 +134,6 @@ Test.prototype.isNotBoolean = function (value, msg) {
   this.notTypeOf(value, 'boolean', msg);
 };
 
-Test.prototype.notInclude = function (haystack, needle, msg) {
-  var isValid = isArray(haystack) || typeOf(haystack) === 'string';
-  msg = msg || 'notInclude';
-  if (isValid) {
-    this.equal(haystack.indexOf(needle), -1, msg);
-    return;
-  }
-  this.notOk(isValid, msg);
-};
-
 Test.prototype.include = function (haystack, needle, msg) {
   var prop, allEqual;
   var hasIndexOf = isArray(haystack) || typeOf(haystack) === 'string';
