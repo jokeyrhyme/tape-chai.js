@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- better default assertion messages
+
 ### Changed
 
 - depend on [chaijs/deep-eql](https://github.com/chaijs/deep-eql) from upstream Chai.js to minimise staleness
