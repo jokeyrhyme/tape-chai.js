@@ -1,7 +1,17 @@
 /*eslint-disable dot-notation, no-array-constructor, no-new-wrappers*/
 'use strict';
 
+// 3rd-party modules
+
 var test = require('tape');
+
+// our modules
+
+var err = require('./err');
+
+// this module
+
+var CLOBBERED = ['deepEqual', 'notDeepEqual'];
 
 var ORIGINALS = {};
 Object.keys(test.Test.prototype).forEach(function (prop) {
@@ -13,6 +23,7 @@ require('..');
 test('tape-chai doesn\'t clobber original methods', function (t) {
   Object.keys(test.Test.prototype).forEach(function (prop) {
     if (!ORIGINALS[prop]) { return; }
+    if (CLOBBERED.indexOf(prop) !== -1) { return; }
     t.equal(ORIGINALS[prop], test.Test.prototype[prop], 'Test.prototype.' + prop);
     ORIGINALS[prop] = test.Test.prototype[prop];
   });
@@ -22,36 +33,6 @@ test('tape-chai doesn\'t clobber original methods', function (t) {
 // require('events').EventEmitter.defaultMaxListeners = 100;
 
 // https://github.com/chaijs/chai/blob/master/test/t.js
-
-// https://github.com/chaijs/chai/blob/master/test/bootstrap/index.js
-
-/*eslint-disable no-underscore-dangle*/
-function err(t, fn, msg) {
-  var htest = test.createHarness({ exit: false });
-  var rows = [];
-  var stream = htest.createStream({ objectMode: true });
-  var rowFn = function (row) {
-    rows.push(row);
-  };
-  var endFn = function () {
-    stream.removeAllListeners('data');
-    stream.removeAllListeners('end');
-    stream = null;
-    t.ok(rows.every(function (row) {
-      return !row.ok;
-    }), 'expected failure: ' + msg);
-  };
-  if (!t instanceof test.Test) {
-    throw new TypeError('err expects 1st parameter to be a test');
-  }
-  stream.on('data', rowFn);
-  stream.once('end', endFn);
-  htest('fails: ' + msg, function (ht) {
-    fn(ht);
-    ht.end();
-  });
-}
-/*eslint-enable no-underscore-dangle*/
 
 test('isTrue', function (t) {
   t.plan(4);
@@ -264,7 +245,6 @@ test('deepEqual (ordering)', function(t) {
   t.end();
 });
 
-/* tape and Node don't deepEqual RegExp and Date like Chai does
 test('deepEqual /regexp/', function(t) {
   t.deepEqual(/a/, /a/);
   t.notDeepEqual(/a/, /b/);
@@ -286,9 +266,7 @@ test('deepEqual (Date)', function(t) {
   t.notDeepEqual(a, {});
   t.end();
 });
-*/
 
-/* tape and Node don't deal with circular structures
 test('deepEqual (circular)', function(t) {
   var circularObject = {}
     , secondCircularObject = {};
@@ -304,7 +282,6 @@ test('deepEqual (circular)', function(t) {
     ht.deepEqual(circularObject, secondCircularObject);
   }, 'expected { field: [Circular] } to deeply equal { Object (field, field2) }');
 });
-*/
 
 test('notDeepEqual', function(t) {
   t.plan(2);
@@ -315,7 +292,6 @@ test('notDeepEqual', function(t) {
   }, 'expected { tea: \'chai\' } to not deeply equal { tea: \'chai\' }');
 });
 
-/* tape and Node don't deal with circular structures
 test('notDeepEqual (circular)', function(t) {
   var circularObject = {}
     , secondCircularObject = { tea: 'jasmine' };
@@ -328,10 +304,9 @@ test('notDeepEqual (circular)', function(t) {
 
   err(t, function (ht) {
     delete secondCircularObject.tea;
-    t.notDeepEqual(circularObject, secondCircularObject);
+    ht.notDeepEqual(circularObject, secondCircularObject);
   }, 'expected { field: [Circular] } to not deeply equal { field: [Circular] }');
 });
-*/
 
 test('isNull', function(t) {
   t.plan(2);
@@ -732,3 +707,5 @@ test('memberEquals', function(t) {
     ht.sameMembers([1, 54], [6, 1, 54]);
   }, 'expected [ 1, 54 ] to have the same members as [ 6, 1, 54 ]');
 });
+
+require('./other-tests');

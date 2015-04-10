@@ -5,66 +5,11 @@
 
 var Test = require('tape').Test;
 
+var deepEql = require('deep-eql');
+var pathval = require('pathval');
+var typeOf = require('type-detect');
+
 // this module
-
-// https://github.com/chaijs/chai/blob/master/lib/chai/utils/type.js
-
-var NATIVES = {
-  '[object Arguments]': 'arguments',
-  '[object Array]': 'array',
-  '[object Date]': 'date',
-  '[object Function]': 'function',
-  '[object Number]': 'number',
-  '[object RegExp]': 'regexp',
-  '[object String]': 'string'
-};
-
-function typeOf(obj) {
-  var str = Object.prototype.toString.call(obj);
-  if (NATIVES[str]) { return NATIVES[str]; }
-  if (obj === null) { return 'null'; }
-  if (obj === undefined) { return 'undefined'; }
-  if (obj === Object(obj)) { return 'object'; }
-  return typeof obj;
-}
-
-
-/*eslint-disable curly, eqeqeq, no-else-return, no-extra-parens, vars-on-top, yoda*/
-// https://github.com/chaijs/chai/blob/master/lib/chai/utils/getPathValue.js
-function _getPathValue (parsed, obj) {
-  var tmp = obj
-    , res;
-  for (var i = 0, l = parsed.length; i < l; i++) {
-    var part = parsed[i];
-    if (tmp) {
-      if ('undefined' !== typeof part.p)
-        tmp = tmp[part.p];
-      else if ('undefined' !== typeof part.i)
-        tmp = tmp[part.i];
-      if (i == (l - 1)) res = tmp;
-    } else {
-      res = undefined;
-    }
-  }
-  return res;
-}
-
-function parsePath (path) {
-  var str = path.replace(/\[/g, '.[')
-    , parts = str.match(/(\\\.|[^.]+?)+/g);
-  return parts.map(function (value) {
-    var re = /\[(\d+)\]$/
-      , mArr = re.exec(value);
-    if (mArr) return { i: parseFloat(mArr[1], 10) };
-    else return { p: value };
-  });
-}
-
-function getPathValue (path, obj) {
-  var parsed = parsePath(path);
-  return _getPathValue(parsed, obj);
-}
-/*eslint-enable curly, eqeqeq, no-else-return, no-extra-parens, vars-on-top, yoda*/
 
 function isArray (value) {
   if (Array.isArray) {
@@ -265,7 +210,7 @@ Test.prototype.notProperty = function (object, property, msg) {
 Test.prototype.deepProperty = function (object, property, msg) {
   var isValid = object instanceof Object && typeOf(property) === 'string';
   if (isValid) {
-    this.isDefined(getPathValue(property, object), msg);
+    this.isDefined(pathval.get(object, property), msg);
     return;
   }
   this.ok(isValid, msg);
@@ -274,7 +219,7 @@ Test.prototype.deepProperty = function (object, property, msg) {
 Test.prototype.notDeepProperty = function (object, property, msg) {
   var isValid = object instanceof Object && typeOf(property) === 'string';
   if (isValid) {
-    this.isUndefined(getPathValue(property, object), msg);
+    this.isUndefined(pathval.get(object, property), msg);
     return;
   }
   this.ok(isValid, msg);
@@ -301,7 +246,7 @@ Test.prototype.propertyNotVal = function (object, property, value, msg) {
 Test.prototype.deepPropertyVal = function (object, property, value, msg) {
   var isValid = object instanceof Object && typeOf(property) === 'string';
   if (isValid) {
-    this.equal(getPathValue(property, object), value, msg);
+    this.equal(pathval.get(object, property), value, msg);
     return;
   }
   this.ok(isValid, msg);
@@ -310,7 +255,7 @@ Test.prototype.deepPropertyVal = function (object, property, value, msg) {
 Test.prototype.deepPropertyNotVal = function (object, property, value, msg) {
   var isValid = object instanceof Object && typeOf(property) === 'string';
   if (isValid) {
-    this.notEqual(getPathValue(property, object), value, msg);
+    this.notEqual(pathval.get(object, property), value, msg);
     return;
   }
   this.ok(isValid, msg);
@@ -408,4 +353,19 @@ Test.prototype.includeMembers = function (superset, subset, msg) {
     return;
   }
   this.ok(isValid, msg);
+};
+
+// override Tape's assertions
+
+Test.prototype.deepEqual = function (actual, expected, msg) {
+  this.isTrue(deepEql(actual, expected), msg);
+};
+
+Test.prototype.notDeepEqual = function (actual, expected, msg) {
+  var isTypesEqual = typeOf(actual) === typeOf(expected);
+  if (!isTypesEqual) {
+    this.isFalse(isTypesEqual, msg);
+  } else {
+    this.isFalse(deepEql(actual, expected), msg);
+  }
 };
