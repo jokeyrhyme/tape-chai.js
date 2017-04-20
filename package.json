@@ -31,7 +31,7 @@
   "dependencies": {
     "deep-eql": "2.0.1",
     "pathval": "1.1.0",
-    "type-detect": "4.0.0"
+    "type-detect": "4.0.2"
   },
   "browserify": {},
   "files": [
