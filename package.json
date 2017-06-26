@@ -26,7 +26,7 @@
     "tape": "^4"
   },
   "peerDependencies": {
-    "tape": "^3.5||^4"
+    "tape": "^4.7.0"
   },
   "dependencies": {
     "deep-eql": "2.0.2",
