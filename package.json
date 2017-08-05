@@ -29,7 +29,7 @@
     "tape": "^3.5||^4"
   },
   "dependencies": {
-    "deep-eql": "2.0.2",
+    "deep-eql": "3.0.0",
     "pathval": "1.1.0",
     "type-detect": "4.0.2"
   },
