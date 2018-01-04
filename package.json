@@ -20,7 +20,7 @@
   "license": "BSD",
   "devDependencies": {
     "backbone": "^1.1.2",
-    "browserify": "^14.1.0",
+    "browserify": "^15.0.0",
     "eslint": "^4.1.0",
     "istanbul": "^0.4.5",
     "tape": "^4"
